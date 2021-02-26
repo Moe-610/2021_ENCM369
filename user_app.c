@@ -94,14 +94,25 @@ Promises:
 */
 void UserAppRun(void)
 {
-    for(u8 u8Counter=0; u8Counter<64; u8Counter++)
+    static u8 su8State = 0; // set button state to 0
+    
+    if(PORTB == 0x00)
     {
-        for(u32 u32Delay=0; u32Delay<4000000; u32Delay++)
+        su8State = 1; 
+    }
+    
+    while(su8State) // if the button is high
+    {
+        if( (PORTB & 0x20) == 0x20) //using bit-masking to check if RB5 is high
         {
-            
+            LATA++;
+            su8State = 0;
         }
+    }
+    
+    if(LATA == 0xC0) // reset condition if counter reaches the maximum limit 
+    {
         LATA = 0x80;
-        LATA = LATA | u8Counter;
     }
 
 

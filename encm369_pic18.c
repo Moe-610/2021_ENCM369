@@ -88,9 +88,15 @@ Promises:
 */
 void GpioSetup(void)
 {
-    TRISA = 0x00;
-    ANSELA = 0x00;
-    LATA = 0x00;
+    
+   LATA = 0x80;// setting RA7 to high other ports to low
+   PORTB = 0x00;
+   ANSELA = 0x00;
+   ANSELB = 0x01; // enable analog input for b ports
+   TRISA = 0x00;
+   TRISB = 0x01; // initialize pin for input
+    
+    
 } /* end GpioSetup() */
 
 
