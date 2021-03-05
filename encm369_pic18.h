@@ -41,8 +41,8 @@ Type Definitions
 /***********************************************************************************************************************
 * Macros
 ***********************************************************************************************************************/
-#define HEARTBEAT_ON()          /*!< @brief Turns on Heartbeat LED */
-#define HEARTBEAT_OFF()         /*!< @brief Turns off Heartbeat LED */
+#define HEARTBEAT_ON()          (LATA |= 0X80) /*!< @brief Turns on Heartbeat LED */
+#define HEARTBEAT_OFF()         (LATA &= 0X7F)/*!< @brief Turns off Heartbeat LED */
 
 
 /***********************************************************************************************************************

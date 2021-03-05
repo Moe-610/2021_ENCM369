@@ -57,7 +57,27 @@ Function Definitions
 /*--------------------------------------------------------------------------------------------------------------------*/
 /*! @protectedsection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
-
+ /*
+void TimeXus(INPUT_PARAMETER_)
+Sets Timer0 to count u16Microseconds_
+Requires:
+- Timer0 configured such that each timer tick is 1 microsecond
+- INPUT_PARAMETER_ is the value in microseconds to time from 1 to 65535
+Promises:
+- Pre-loads TMR0H:L to clock out desired period
+- TMR0IF cleared
+- Timer0 enabled
+*/
+  void TimeXus(u16 u16Microsecond)
+{
+    T0CON0 &= 0x7F; // Turn off timer
+ 
+    TMR0H = ((0xFFFF - u16Microsecond) >> 8) & 0xFF; // Sets TMR0H to the desired value
+    TMR0L = (0xFFFF - u16Microsecond) & 0xFF; // Sets TMR0L registers to the desired value
+        
+    PIR3 &= 0x7F; // Set interrupt flag to 0
+    T0CON0 |= 0x80; // Turn on Timer
+  }
 /*!--------------------------------------------------------------------------------------------------------------------
 @fn void UserAppInitialize(void)
 
@@ -94,18 +114,25 @@ Promises:
 */
 void UserAppRun(void)
 {
-    for(u8 u8Counter=0; u8Counter<64; u8Counter++)
+    static u16 u16Counter = 0; //  counter delay value
+    static u8 u8Index = 0; // indexing value
+    static u8 au8Pattern[] = {0x04, 0x08, 0x02, 0x10, 0x01, 0x20}; // LED position array
+    
+    if (u16Counter == 500) // Increase u16Counter until 500 
     {
-        for(u32 u32Delay=0; u32Delay<4000000; u32Delay++)
+        LATA &= 0x00; 
+        LATA = au8Pattern[u8Index]; // Individually enable LEDs using u8Array and u8Index 
+        u16Counter = 0; // Reset counter to 0
+        u8Index++;
+        
+        if (u8Index == 6)
         {
-            
+            u8Index = 0;
         }
-        LATA = 0x80;
-        LATA = LATA | u8Counter;
     }
-
-
-} /* end UserAppRun */
+       u16Counter++;
+    
+  } /* end UserAppRun */
 
 
 

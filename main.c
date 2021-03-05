@@ -57,9 +57,15 @@ void main(void)
     UserAppRun();
    
      
+            
     /* System sleep */
+    
     HEARTBEAT_OFF();
     SystemSleep();
+    TimeXus(1000);
+    while(PIR3==(PIR3 & 0x7f))
+    {
+    }
     HEARTBEAT_ON();
     
   } /* end while(1) main super loop */
