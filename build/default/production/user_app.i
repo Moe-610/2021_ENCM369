@@ -27289,6 +27289,7 @@ void SystemSleep(void);
 # 27 "./user_app.h"
 void UserAppInitialize(void);
 void UserAppRun(void);
+void TimeXus(u16 u16Microsecond);
 # 106 "./configuration.h" 2
 # 26 "user_app.c" 2
 
@@ -27306,15 +27307,46 @@ volatile u8 G_u8UserAppFlags;
 extern volatile u32 G_u32SystemTime1ms;
 extern volatile u32 G_u32SystemTime1s;
 extern volatile u32 G_u32SystemFlags;
-# 76 "user_app.c"
+# 71 "user_app.c"
+  void TimeXus(u16 u16Microsecond)
+{
+    T0CON0 &= 0x7F;
+
+    TMR0H = ((0xFFFF - u16Microsecond) >> 8) & 0xFF;
+    TMR0L = (0xFFFF - u16Microsecond) & 0xFF;
+
+    PIR3 &= 0x7F;
+    T0CON0 |= 0x80;
+  }
+# 96 "user_app.c"
 void UserAppInitialize(void)
 {
 
 
 }
-# 95 "user_app.c"
+# 115 "user_app.c"
 void UserAppRun(void)
 {
+    static u8 u8Slope = 0;
 
+    if (u8Slope == 0)
+    {
+        DAC1DATL ++;
 
-}
+        if(DAC1DATL == 255)
+        {
+            u8Slope = 1;
+        }
+    }
+
+    if(u8Slope == 1)
+    {
+        DAC1DATL--;
+
+        if(DAC1DATL ==0)
+        {
+            u8Slope =0;
+        }
+
+    }
+  }

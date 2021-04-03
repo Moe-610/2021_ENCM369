@@ -1,4 +1,19 @@
 Version 4.0 HI-TECH Software Intermediate Code
+"22627 C:/Users/moham/Desktop/Applications/packs/Microchip/PIC18F-Q_DFP/1.8.154/xc8\pic\include\proc\pic18f27q43.h
+[; ;C:/Users/moham/Desktop/Applications/packs/Microchip/PIC18F-Q_DFP/1.8.154/xc8\pic\include\proc\pic18f27q43.h: 22627: extern volatile unsigned char T0CON0 __attribute__((address(0x31A)));
+[v _T0CON0 `Vuc ~T0 @X0 0 e@794 ]
+"22373
+[; ;C:/Users/moham/Desktop/Applications/packs/Microchip/PIC18F-Q_DFP/1.8.154/xc8\pic\include\proc\pic18f27q43.h: 22373: extern volatile unsigned char TMR0H __attribute__((address(0x319)));
+[v _TMR0H `Vuc ~T0 @X0 0 e@793 ]
+"22235
+[; ;C:/Users/moham/Desktop/Applications/packs/Microchip/PIC18F-Q_DFP/1.8.154/xc8\pic\include\proc\pic18f27q43.h: 22235: extern volatile unsigned char TMR0L __attribute__((address(0x318)));
+[v _TMR0L `Vuc ~T0 @X0 0 e@792 ]
+"44870
+[; ;C:/Users/moham/Desktop/Applications/packs/Microchip/PIC18F-Q_DFP/1.8.154/xc8\pic\include\proc\pic18f27q43.h: 44870: extern volatile unsigned char PIR3 __attribute__((address(0x4B1)));
+[v _PIR3 `Vuc ~T0 @X0 0 e@1201 ]
+"3158
+[; ;C:/Users/moham/Desktop/Applications/packs/Microchip/PIC18F-Q_DFP/1.8.154/xc8\pic\include\proc\pic18f27q43.h: 3158: extern volatile unsigned char DAC1DATL __attribute__((address(0x07D)));
+[v _DAC1DATL `Vuc ~T0 @X0 0 e@125 ]
 "30 ./configuration.h
 [p x FEXTOSC  =  OFF     ]
 "31
@@ -2523,27 +2538,117 @@ Version 4.0 HI-TECH Software Intermediate Code
 "33 user_app.c
 [; ;user_app.c: 33: volatile u8 G_u8UserAppFlags;
 [v _G_u8UserAppFlags `Vuc ~T0 @X0 1 e ]
+"71
+[; ;user_app.c: 71:   void TimeXus(u16 u16Microsecond)
+[v _TimeXus `(v ~T0 @X0 1 ef1`us ]
+"72
+[; ;user_app.c: 72: {
+{
+[e :U _TimeXus ]
+"71
+[; ;user_app.c: 71:   void TimeXus(u16 u16Microsecond)
+[v _u16Microsecond `us ~T0 @X0 1 r1 ]
+"72
+[; ;user_app.c: 72: {
+[f ]
+"73
+[; ;user_app.c: 73:     T0CON0 &= 0x7F;
+[e =& _T0CON0 -> -> 127 `i `Vuc ]
+"75
+[; ;user_app.c: 75:     TMR0H = ((0xFFFF - u16Microsecond) >> 8) & 0xFF;
+[e = _TMR0H -> & >> - -> 65535 `ui -> _u16Microsecond `ui -> 8 `i -> -> 255 `i `ui `uc ]
 "76
-[; ;user_app.c: 76: void UserAppInitialize(void)
+[; ;user_app.c: 76:     TMR0L = (0xFFFF - u16Microsecond) & 0xFF;
+[e = _TMR0L -> & - -> 65535 `ui -> _u16Microsecond `ui -> -> 255 `i `ui `uc ]
+"78
+[; ;user_app.c: 78:     PIR3 &= 0x7F;
+[e =& _PIR3 -> -> 127 `i `Vuc ]
+"79
+[; ;user_app.c: 79:     T0CON0 |= 0x80;
+[e =| _T0CON0 -> -> 128 `i `Vuc ]
+"80
+[; ;user_app.c: 80:   }
+[e :UE 2272 ]
+}
+"96
+[; ;user_app.c: 96: void UserAppInitialize(void)
 [v _UserAppInitialize `(v ~T0 @X0 1 ef ]
-"77
-[; ;user_app.c: 77: {
+"97
+[; ;user_app.c: 97: {
 {
 [e :U _UserAppInitialize ]
 [f ]
-"80
-[; ;user_app.c: 80: }
-[e :UE 2272 ]
+"100
+[; ;user_app.c: 100: }
+[e :UE 2273 ]
 }
-"95
-[; ;user_app.c: 95: void UserAppRun(void)
+"115
+[; ;user_app.c: 115: void UserAppRun(void)
 [v _UserAppRun `(v ~T0 @X0 1 ef ]
-"96
-[; ;user_app.c: 96: {
+"116
+[; ;user_app.c: 116: {
 {
 [e :U _UserAppRun ]
 [f ]
-"99
-[; ;user_app.c: 99: }
-[e :UE 2273 ]
+"117
+[; ;user_app.c: 117:     static u8 u8Slope = 0;
+[v F15924 `uc ~T0 @X0 1 s u8Slope ]
+[i F15924
+-> -> 0 `i `uc
+]
+"119
+[; ;user_app.c: 119:     if (u8Slope == 0)
+[e $ ! == -> F15924 `i -> 0 `i 2275  ]
+"120
+[; ;user_app.c: 120:     {
+{
+"121
+[; ;user_app.c: 121:         DAC1DATL ++;
+[e ++ _DAC1DATL -> -> 1 `i `Vuc ]
+"123
+[; ;user_app.c: 123:         if(DAC1DATL == 255)
+[e $ ! == -> _DAC1DATL `i -> 255 `i 2276  ]
+"124
+[; ;user_app.c: 124:         {
+{
+"125
+[; ;user_app.c: 125:             u8Slope = 1;
+[e = F15924 -> -> 1 `i `uc ]
+"126
+[; ;user_app.c: 126:         }
+}
+[e :U 2276 ]
+"127
+[; ;user_app.c: 127:     }
+}
+[e :U 2275 ]
+"129
+[; ;user_app.c: 129:     if(u8Slope == 1)
+[e $ ! == -> F15924 `i -> 1 `i 2277  ]
+"130
+[; ;user_app.c: 130:     {
+{
+"131
+[; ;user_app.c: 131:         DAC1DATL--;
+[e -- _DAC1DATL -> -> 1 `i `Vuc ]
+"133
+[; ;user_app.c: 133:         if(DAC1DATL ==0)
+[e $ ! == -> _DAC1DATL `i -> 0 `i 2278  ]
+"134
+[; ;user_app.c: 134:         {
+{
+"135
+[; ;user_app.c: 135:             u8Slope =0;
+[e = F15924 -> -> 0 `i `uc ]
+"136
+[; ;user_app.c: 136:         }
+}
+[e :U 2278 ]
+"138
+[; ;user_app.c: 138:     }
+}
+[e :U 2277 ]
+"139
+[; ;user_app.c: 139:   }
+[e :UE 2274 ]
 }
