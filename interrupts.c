@@ -123,7 +123,8 @@ void __interrupt(irq(IRQ_TMR1), high_priority) TMR1_ISR(void)
    KEEP THIS SHORT!
   **********************************************************************/
  
-  
+  DAC1DATL = G_au8UserAppsinTable[u8Index];
+  u8Index += 0x04;
   
   /*********************************************************************
    End of event handling
@@ -159,4 +160,4 @@ void __interrupt(irq(IRQ_TMR2), high_priority) TMR2_ISR(void)
   }
 #endif
  
-} /* end TMR2_ISR */
+} /* end TMR2_ISR */        
