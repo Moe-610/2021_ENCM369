@@ -75,8 +75,8 @@ Function Definitions
 /*--------------------------------------------------------------------------------------------------------------------*/
 /*! @publicsection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
-static u16 UserApp_au16Note[] = {C4, C4, G4, G4, A4, A4, G4, F4, F4, E4, E4, D4, D4, C4}; 
-static u16 UserApp_au16NoteDelay[] = {N4, N4, N4, N4, N4, N4, N2, N4, N4, N4, N4, N4, N4, N2}; 
+   static u16 au16Note[] = {C4, C4, G4, G4, A4, A4, G4, F4, F4, E4, E4, D4, D4, C4}; 
+   static u16 au16NoteDelay[] = {N4, N4, N4, N4, N4, N4, N2, N4, N4, N4, N4, N4, N4, N2}; 
 /*!--------------------------------------------------------------------------------------------------------------------
 @fn void TimeXus(u16 u16TimeXus_)
 
@@ -239,6 +239,39 @@ Promises:
 void UserAppRun(void)
 {
 
+
+    static u16 u16Time = 0x0000;
+    static u16 u16Index = 0x0000;
+    
+    InterruptTimerXus(au16Note[u16Index],true);      // selects note
+    
+    u16Time++;
+    
+    if(u16Time == au16NoteDelay[u16Index] - REGULAR_NOTE_ADJUSTMENT )
+    {
+        u16Index++;     // select the next note in the array
+        u16Time=0x00;   // reset the time the note plays
+        
+             for(u16 i = 0x0000; i < REGULAR_NOTE_ADJUSTMENT; i++) 
+        {
+            InterruptTimerXus(NN,true);
+        }
+        
+        
+    }
+    
+      if (u16Time == 15)
+        {
+            u16Time == 0x00;
+        }
+ 
+            
+    
+    
+    
+    
+    
+    
   
 } /* end UserAppRun() */
 
